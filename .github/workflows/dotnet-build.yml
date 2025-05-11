@@ -1,0 +1,26 @@
+name: Teste Workflow
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 * * * *'  # Executa a cada hora
+    jobs:
+      build:
+      runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'  # Especifique a versão do .NET que seu projeto utiliza
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build Project
+        run: dotnet build --configuration Release
+      - name: Run Custom Script
+        run: |
+          echo "Running custom script..."
+          # Aqui você pode adicionar seu script personalizado, por exemplo:
+          dotnet run --project ./src/MyProject/MyProject.csproj
